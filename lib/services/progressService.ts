@@ -68,7 +68,7 @@ export const progressService = {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
       const dateStr = date.toISOString().split('T')[0];
-      const streak = streakMap.get(dateStr);
+      const streak = streakMap.get(dateStr) as Streak | undefined;
 
       days.push({
         day: date.toLocaleDateString('en-US', { weekday: 'short' }),
@@ -129,7 +129,7 @@ export const progressService = {
     for (let i = daysInMonth - 1; i >= 0; i--) {
       const date = new Date(today.getFullYear(), today.getMonth(), i + 1);
       const dateStr = date.toISOString().split('T')[0];
-      const streak = streakMap.get(dateStr);
+      const streak = streakMap.get(dateStr) as Streak | undefined;
 
       days.push({
         day: date.getDate().toString(),
