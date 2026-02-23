@@ -7,9 +7,11 @@
 
 import { useState, useEffect } from 'react';
 import { authService, type AuthError } from '@/lib/services/authService';
+import type { User } from '@supabase/supabase-js';
+import type { Database } from '@/lib/supabase/types';
 
 export interface AuthState {
-  user: any | null;
+  user: User | null;
   loading: boolean;
   error: AuthError | null;
 }
@@ -95,11 +97,7 @@ export function useAuth() {
     }
   };
 
-  const updateProfile = async (updates: {
-    wake_goal_time?: string;
-    reset_duration?: number;
-    timezone?: string;
-  }) => {
+  const updateProfile = async (updates: Database['public']['Tables']['user_profiles']['Update']) => {
     if (!state.user) return;
 
     setState({ user: state.user, loading: true, error: null });

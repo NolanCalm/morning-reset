@@ -4,6 +4,7 @@
  */
 
 import { supabase, type CheckIn } from '@/lib/supabase/client';
+import type { Database } from '@/lib/supabase/types';
 
 export const checkinService = {
   /**
@@ -15,14 +16,16 @@ export const checkinService = {
     date: string,
     resetDuration: number = 30
   ): Promise<CheckIn> {
-    const { data, error } = await (supabase as any)
+    const checkinData: Database['public']['Tables']['checkins']['Insert'] = {
+      user_id: userId,
+      wake_time: wakeTime,
+      date,
+      reset_duration: resetDuration,
+    };
+
+    const { data, error } = await supabase
       .from('checkins')
-      .insert({
-        user_id: userId,
-        wake_time: wakeTime,
-        date,
-        reset_duration: resetDuration,
-      })
+      .insert(checkinData as never)
       .select()
       .single();
 
@@ -81,9 +84,13 @@ export const checkinService = {
     checkInId: string,
     resetDuration: number
   ): Promise<CheckIn> {
-    const { data, error } = await (supabase as any)
+    const updateData: Database['public']['Tables']['checkins']['Update'] = {
+      reset_duration: resetDuration,
+    };
+
+    const { data, error } = await supabase
       .from('checkins')
-      .update({ reset_duration: resetDuration })
+      .update(updateData as never)
       .eq('id', checkInId)
       .select()
       .single();

@@ -25,11 +25,6 @@ export function ProgressDashboard({
   const daysToShow = view === 'weekly' ? weeklyView : monthlyView;
   const hasData = daysToShow.length > 0;
 
-  const getDayColor = (completed: boolean): string => {
-    if (completed) return 'text-green-600';
-    return 'text-gray-300';
-  };
-
   const getStreakColor = (streakCount: number): string => {
     if (streakCount >= 30) return 'text-purple-600';
     if (streakCount >= 14) return 'text-orange-600';
@@ -69,7 +64,7 @@ export function ProgressDashboard({
             {/* Stats Summary */}
             <div className="grid grid-cols-3 gap-4 mb-6">
               <div className="text-center">
-                <p className="text-3xl font-bold {getStreakColor(currentStreak)}">
+                <p className={`text-3xl font-bold ${getStreakColor(currentStreak)}`}>
                   {currentStreak}
                 </p>
                 <p className="text-sm text-gray-600">Current Streak</p>

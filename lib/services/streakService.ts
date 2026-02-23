@@ -4,6 +4,7 @@
  */
 
 import { supabase, type Streak } from '@/lib/supabase/client';
+import type { Database } from '@/lib/supabase/types';
 
 export interface StreakSummary {
   currentStreak: number;
@@ -93,14 +94,16 @@ export const streakService = {
 
     if (existing) {
       // Update existing record
-      const { data, error } = await (supabase as any)
+      const updateData: Database['public']['Tables']['streaks']['Update'] = {
+        completed,
+        streak_count: streakCount,
+        updated_at: new Date().toISOString(),
+      };
+
+      const { data, error } = await supabase
         .from('streaks')
-        .update({
-          completed,
-          streak_count: streakCount,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', (existing as any).id)
+        .update(updateData as never)
+        .eq('id', (existing as Streak).id)
         .select()
         .single();
 
@@ -108,17 +111,19 @@ export const streakService = {
         throw new Error(`Failed to update streak: ${error.message}`);
       }
 
-      return { ...(existing as any), ...data! };
+      return { ...(existing as Streak), ...(data as Streak) };
     } else {
       // Create new record
-      const { data, error } = await (supabase as any)
+      const insertData: Database['public']['Tables']['streaks']['Insert'] = {
+        user_id: userId,
+        date,
+        completed,
+        streak_count: streakCount,
+      };
+
+      const { data, error } = await supabase
         .from('streaks')
-        .insert({
-          user_id: userId,
-          date,
-          completed,
-          streak_count: streakCount,
-        })
+        .insert(insertData as never)
         .select()
         .single();
 

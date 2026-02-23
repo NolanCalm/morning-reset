@@ -58,11 +58,11 @@ export function useProgress(userId: string, view: 'weekly' | 'monthly' = 'weekly
           });
         }
       } catch (err) {
-        setState({
-          ...state,
+        setState(prevState => ({
+          ...prevState,
           loading: false,
           error: err instanceof Error ? err : new Error('Failed to load progress'),
-        });
+        }));
       }
     }
 

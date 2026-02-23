@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Calendar, Clock, Flame, Zap } from 'lucide-react';
+import { Clock, Flame } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -60,7 +60,7 @@ export function DailyCheckIn({
         <div className="text-center space-y-6">
           {/* Streak Counter */}
           <div className="mb-6">
-            <div className="text-6xl font-bold {getStreakColor(streak)}">
+            <div className={`text-6xl font-bold ${getStreakColor(streak)}`}>
               {streak}
             </div>
             <p className="text-sm text-gray-600">

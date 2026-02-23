@@ -4,6 +4,7 @@
  */
 
 import { supabase } from '@/lib/supabase/client';
+import type { Database } from '@/lib/supabase/types';
 
 export interface AuthError {
   code: string;
@@ -29,14 +30,16 @@ export const authService = {
 
     // Create user profile
     if (data.user) {
-      const { error: profileError } = await (supabase as any)
+      const profileData: Database['public']['Tables']['user_profiles']['Insert'] = {
+        user_id: data.user.id,
+        wake_goal_time: null,
+        reset_duration: 30, // Default 30 minutes
+        timezone: 'UTC',
+      };
+
+      const { error: profileError } = await supabase
         .from('user_profiles')
-        .insert({
-          user_id: data.user.id,
-          wake_goal_time: null,
-          reset_duration: 30, // Default 30 minutes
-          timezone: 'UTC',
-        })
+        .insert(profileData as never)
         .select()
         .single();
 
@@ -120,14 +123,10 @@ export const authService = {
   /**
    * Update user profile settings
    */
-  async updateProfile(userId: string, updates: {
-    wake_goal_time?: string;
-    reset_duration?: number;
-    timezone?: string;
-  }) {
-    const { data, error } = await (supabase as any)
+  async updateProfile(userId: string, updates: Database['public']['Tables']['user_profiles']['Update']) {
+    const { data, error } = await supabase
       .from('user_profiles')
-      .update(updates)
+      .update(updates as never)
       .eq('user_id', userId)
       .select()
       .single();

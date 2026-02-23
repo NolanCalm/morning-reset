@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { MorningLayout } from '@/components/layouts/MorningLayout';
 import { DailyCheckIn } from '@/components/features/DailyCheckIn';
 import { ProgressDashboard } from '@/components/features/ProgressDashboard';
