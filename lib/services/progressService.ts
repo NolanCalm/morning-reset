@@ -5,7 +5,39 @@
 
 import { streakService } from './streakService';
 import { checkinService } from './checkinService';
-import type { Database } from '@/lib/supabase/client';
+
+type Database = {
+  users: {
+    Row: {
+      id: string;
+      email: string;
+      created_at: string;
+      updated_at: string;
+    };
+  };
+  streaks: {
+    Row: {
+      id: string;
+      user_id: string;
+      date: string;
+      completed: boolean;
+      streak_count: number;
+      created_at: string;
+      updated_at: string;
+    };
+  };
+  checkins: {
+    Row: {
+      id: string;
+      user_id: string;
+      wake_time: string;
+      date: string;
+      reset_duration: number;
+      created_at: string;
+      updated_at: string;
+    };
+  };
+};
 
 type Streak = Database['streaks']['Row'];
 
