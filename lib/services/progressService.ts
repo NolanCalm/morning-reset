@@ -5,7 +5,9 @@
 
 import { streakService } from './streakService';
 import { checkinService } from './checkinService';
-import type { Streak } from '@/lib/supabase/client';
+import type { Database } from '@/lib/supabase/client';
+
+type Streak = Database['streaks']['Row'];
 
 export interface WeekDay {
   day: string;
