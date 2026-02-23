@@ -33,27 +33,28 @@ export function useProgress(userId: string, view: 'weekly' | 'monthly' = 'weekly
     async function loadProgress() {
       try {
         if (view === 'weekly') {
+          const progress = await progressService.getWeeklyProgress(userId);
           const weeklyView = await progressService.getWeeklyView(userId);
           setState({
             weeklyView,
             monthlyView: [],
             loading: false,
             error: null,
-            completionRate: 0,
-            currentStreak: 0,
-            longestStreak: 0,
+            completionRate: progress.completionRate,
+            currentStreak: progress.currentStreak,
+            longestStreak: progress.longestStreak,
           });
         } else if (view === 'monthly') {
+          const progress = await progressService.getMonthlyProgress(userId);
           const monthlyView = await progressService.getMonthlyView(userId);
-          const summary = await progressService.getSummary(userId);
           setState({
             weeklyView: [],
             monthlyView,
             loading: false,
             error: null,
-            completionRate: summary.completionRate,
-            currentStreak: summary.currentStreak,
-            longestStreak: summary.longestStreak,
+            completionRate: progress.completionRate,
+            currentStreak: progress.currentStreak,
+            longestStreak: progress.longestStreak,
           });
         }
       } catch (err) {
