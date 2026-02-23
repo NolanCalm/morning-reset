@@ -5,7 +5,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { checkinService } from '@/lib/services/checkinService';
 
 export interface CheckInState {
@@ -22,7 +22,7 @@ export function useCheckIn(userId: string, date: string) {
   });
 
   // Load today's check-in on mount
-  useState(() => {
+  useEffect(() => {
     async function loadCheckIn() {
       try {
         const checkIn = await checkinService.getTodayCheckIn(userId, date);
@@ -41,7 +41,7 @@ export function useCheckIn(userId: string, date: string) {
     }
 
     loadCheckIn();
-  }, []);
+  }, [userId, date]);
 
   const createCheckIn = async (wakeTime: string) => {
     setState((prev) => ({ ...prev, loading: true, error: null }));
