@@ -3,17 +3,7 @@
  * Manages streak calculation and data
  */
 
-import { supabase } from '@/lib/supabase/client';
-
-export interface Streak {
-  id: string;
-  user_id: string;
-  date: string;
-  completed: boolean;
-  streak_count: number;
-  created_at: string;
-  updated_at: string;
-}
+import { supabase, type Streak } from '@/lib/supabase/client';
 
 export interface StreakSummary {
   currentStreak: number;
@@ -103,14 +93,14 @@ export const streakService = {
 
     if (existing) {
       // Update existing record
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('streaks')
         .update({
           completed,
           streak_count: streakCount,
           updated_at: new Date().toISOString(),
         })
-        .eq('id', existing.id)
+        .eq('id', (existing as any).id)
         .select()
         .single();
 
@@ -118,10 +108,10 @@ export const streakService = {
         throw new Error(`Failed to update streak: ${error.message}`);
       }
 
-      return { ...existing, ...data! };
+      return { ...(existing as any), ...data! };
     } else {
       // Create new record
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('streaks')
         .insert({
           user_id: userId,

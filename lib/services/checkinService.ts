@@ -3,17 +3,7 @@
  * Handles daily check-in operations
  */
 
-import { supabase } from '@/lib/supabase/client';
-
-export interface CheckIn {
-  id: string;
-  user_id: string;
-  wake_time: string;
-  date: string;
-  reset_duration: number;
-  created_at: string;
-  updated_at: string;
-}
+import { supabase, type CheckIn } from '@/lib/supabase/client';
 
 export const checkinService = {
   /**
@@ -25,7 +15,7 @@ export const checkinService = {
     date: string,
     resetDuration: number = 30
   ): Promise<CheckIn> {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('checkins')
       .insert({
         user_id: userId,
@@ -91,7 +81,7 @@ export const checkinService = {
     checkInId: string,
     resetDuration: number
   ): Promise<CheckIn> {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('checkins')
       .update({ reset_duration: resetDuration })
       .eq('id', checkInId)

@@ -29,7 +29,7 @@ export const authService = {
 
     // Create user profile
     if (data.user) {
-      const { error: profileError } = await supabase
+      const { error: profileError } = await (supabase as any)
         .from('user_profiles')
         .insert({
           user_id: data.user.id,
@@ -125,7 +125,7 @@ export const authService = {
     reset_duration?: number;
     timezone?: string;
   }) {
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from('user_profiles')
       .update(updates)
       .eq('user_id', userId)
