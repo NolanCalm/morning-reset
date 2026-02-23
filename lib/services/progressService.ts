@@ -5,41 +5,7 @@
 
 import { streakService } from './streakService';
 import { checkinService } from './checkinService';
-
-type Database = {
-  users: {
-    Row: {
-      id: string;
-      email: string;
-      created_at: string;
-      updated_at: string;
-    };
-  };
-  streaks: {
-    Row: {
-      id: string;
-      user_id: string;
-      date: string;
-      completed: boolean;
-      streak_count: number;
-      created_at: string;
-      updated_at: string;
-    };
-  };
-  checkins: {
-    Row: {
-      id: string;
-      user_id: string;
-      wake_time: string;
-      date: string;
-      reset_duration: number;
-      created_at: string;
-      updated_at: string;
-    };
-  };
-};
-
-type Streak = Database['streaks']['Row'];
+import type { Streak } from '@/lib/supabase/client';
 
 export interface WeekDay {
   day: string;
@@ -91,7 +57,7 @@ export const progressService = {
   async getWeeklyView(userId: string): Promise<WeekDay[]> {
     const progress = await this.getWeeklyProgress(userId);
     const streakMap = new Map(
-      progress.streaks.map((s) => [s.date, s])
+      progress.streaks.map((s) => [s.date, s as Streak])
     );
 
     // Generate 7 days
@@ -149,7 +115,7 @@ export const progressService = {
   async getMonthlyView(userId: string): Promise<WeekDay[]> {
     const progress = await this.getMonthlyProgress(userId);
     const streakMap = new Map(
-      progress.streaks.map((s) => [s.date, s])
+      progress.streaks.map((s) => [s.date, s as Streak])
     );
 
     const today = new Date();
