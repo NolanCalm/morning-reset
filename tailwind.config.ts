@@ -51,11 +51,27 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        /* Phase 2 Sunrise Color Palette */
+        sunrise: {
+          cream: "#FFFBEB",
+          pale: "#FEF3C7",
+          orange: "#F59E0B",
+          amber: "#FFA500",
+          accent: "#FF9F43",
+          gold: "#FFD700",
+          "soft-green": "#10B981",
+          "green-light": "#4ADE80",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {
+        sans: ["Nunito", "sans-serif"],
+        display: ["Poppins", "sans-serif"],
+        mono: ["Courier New", "monospace"],
       },
       keyframes: {
         "accordion-down": {

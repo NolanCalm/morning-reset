@@ -1,22 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins, Nunito } from "next/font/google";
 import { Providers } from "./providers";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const nunito = Nunito({
+  variable: "--font-nunito",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Morning Reset - Build Better Habits",
-  description: "Start your day with intention. Track morning habits, build streaks, and transform your mornings.",
-  keywords: ["morning routine", "habit tracking", "streaks", "productivity"],
+  title: "Morning Reset - Beat Morning Paralysis",
+  description: "Beat morning paralysis with a simple 30-minute reset. Stop 'just 15 more minutes' from destroying your day.",
+  keywords: ["morning paralysis", "beat morning paralysis", "30-minute reset", "stop phone addiction"],
 };
 
 export default function RootLayout({
@@ -27,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${poppins.variable} ${nunito.variable} antialiased`}
       >
         <Providers>{children}</Providers>
       </body>

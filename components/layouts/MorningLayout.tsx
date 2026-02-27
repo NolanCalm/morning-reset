@@ -42,7 +42,7 @@ export function MorningLayout({ children, className = "" }: MorningLayoutProps) 
 
       {/* Footer */}
       <footer className="p-6 text-center text-gray-600 text-sm">
-        <p>Made with ❤️ for better mornings • {new Date().getFullYear()}</p>
+        <p>2026 Morning Reset</p>
       </footer>
     </div>
   );

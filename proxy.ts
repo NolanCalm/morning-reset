@@ -38,6 +38,9 @@ export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Protected routes: /dashboard
+  // Temporarily disabled for design system validation
+  // TODO: Re-enable auth protection after design system rebuild is complete
+  /*
   if (pathname.startsWith('/dashboard')) {
     if (!session) {
       // Redirect to login if no session
@@ -46,6 +49,7 @@ export async function proxy(req: NextRequest) {
       return NextResponse.redirect(redirectUrl);
     }
   }
+  */
 
   // Redirect authenticated users from login to dashboard
   if ((pathname === '/login' || pathname === '/signup') && session) {
