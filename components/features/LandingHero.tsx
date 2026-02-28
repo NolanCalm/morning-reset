@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { signupForEarlyAccess } from "@/lib/services/landingAuthService";
 
 export function LandingHero() {
   const [email, setEmail] = useState("");
@@ -19,18 +20,25 @@ export function LandingHero() {
     setIsSubmitting(true);
     setMessage(null);
 
-    // Simulate API call - replace with actual submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Real Supabase signup - sends confirmation email
+    const result = await signupForEarlyAccess(email);
 
     setIsSubmitting(false);
-    setMessage({ type: 'success', text: "You're on the list! Check your inbox." });
-    setEmail('');
+
+    if (result.success) {
+      setMessage({ type: 'success', text: result.message });
+      if (result.needsVerification) {
+        setEmail(''); // Only clear email if we need verification
+      }
+    } else {
+      setMessage({ type: 'error', text: result.message });
+    }
   };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden atmospheric-texture geometric-pattern">
       {/* Background with sunrise gradient - Phase 2 colors */}
-      <div className="absolute inset-0 bg-gradient-to-br from-sunrise-accent via-sunrise-orange to-sunrise-gold" />
+      <div className="absolute inset-0 z-0 bg-gradient-to-br from-sunrise-accent via-sunrise-orange to-sunrise-gold" />
 
       {/* Asymmetrical hero section */}
       <div className="relative z-10 max-w-6xl mx-auto px-4">
@@ -59,7 +67,7 @@ export function LandingHero() {
                 Tired of "Just 15 More Minutes"?
               </h1>
 
-              <h2 className="text-xl md:text-2xl text-amber-700 mb-6 max-w-2xl">
+              <h2 className="text-xl md:text-2xl text-sunrise-amber mb-6 max-w-2xl">
                 Beat morning paralysis with a simple 30-minute reset
               </h2>
             </div>
@@ -69,7 +77,7 @@ export function LandingHero() {
                 <h3 className="text-lg font-semibold text-sunrise-orange mb-2">
                   Stop "Just 15 More Minutes"
                 </h3>
-                <p className="text-amber-800 text-sm">
+                <p className="text-sunrise-amber text-sm">
                   Break the cycle that turns 15 minutes into 2 hours of lost productivity.
                 </p>
               </Card>
@@ -78,7 +86,7 @@ export function LandingHero() {
                 <h3 className="text-lg font-semibold text-sunrise-orange mb-2">
                   30-Minute Phone Block
                 </h3>
-                <p className="text-amber-800 text-sm">
+                <p className="text-sunrise-amber text-sm">
                   30 minutes phone-free to reset your brain for the day.
                 </p>
               </Card>
@@ -87,7 +95,7 @@ export function LandingHero() {
                 <h3 className="text-lg font-semibold text-sunrise-orange mb-2">
                   Actually Get Out of Bed
                 </h3>
-                <p className="text-amber-800 text-sm">
+                <p className="text-sunrise-amber text-sm">
                   Simple physical activities that break morning paralysis and start your momentum.
                 </p>
               </Card>
@@ -96,7 +104,7 @@ export function LandingHero() {
                 <h3 className="text-lg font-semibold text-sunrise-orange mb-2">
                   Track Your Progress
                 </h3>
-                <p className="text-amber-800 text-sm">
+                <p className="text-sunrise-amber text-sm">
                   Daily streaks and consistency tracking show you're actually winning this fight.
                 </p>
               </Card>
@@ -111,7 +119,7 @@ export function LandingHero() {
                     placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full py-6 px-4 text-lg rounded-2xl border-2 border-orange-200 focus:border-orange-400"
+                    className="w-full py-6 px-4 text-lg rounded-2xl border-2 border-sunrise-pale focus:border-sunrise-orange"
                     disabled={isSubmitting}
                   />
                 </div>
@@ -120,7 +128,7 @@ export function LandingHero() {
                   type="submit"
                   size="lg"
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-br from-orange-500 via-amber-500 to-yellow-500 hover:from-orange-600 hover:via-amber-600 hover:to-yellow-600 text-white font-bold text-lg py-6 px-8 rounded-2xl shadow-lg shadow-orange-300 transition-all duration-300 transform hover:scale-105 disabled:scale-100 disabled:opacity-70"
+                  className="w-full bg-gradient-to-br from-sunrise-accent via-sunrise-orange to-sunrise-gold hover:from-sunrise-orange hover:via-sunrise-amber hover:to-sunrise-accent text-white font-bold text-lg py-6 px-8 rounded-2xl shadow-lg shadow-orange-300 transition-all duration-300 transform hover:scale-105 disabled:scale-100 disabled:opacity-70"
                 >
                   {isSubmitting ? "Joining..." : "Start Your 30-Minute Reset →"}
                 </Button>
@@ -136,7 +144,7 @@ export function LandingHero() {
                 </div>
               )}
 
-              <p className="text-sm text-amber-800 mt-4">
+              <p className="text-sm text-sunrise-amber mt-4">
                 No credit card required. Join people who've actually beaten morning paralysis.
               </p>
             </div>
